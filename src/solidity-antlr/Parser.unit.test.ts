@@ -16,13 +16,12 @@ describe("Parser", () => {
   });
 
   it("should correctly reports valid syntax", () => {
-    // Open issue https://github.com/solidity-parser/parser/issues/50
-    const badSyntax = `
+    const goodSyntax = `
         contract Foo {
             function f(address payable) public {}
           }
-        `;
-    const results = parse(badSyntax);
+      `;
+    const results = parse(goodSyntax);
     assert.equal(results.success, true);
   });
 });

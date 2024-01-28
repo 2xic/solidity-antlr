@@ -1,17 +1,9 @@
-import { CharStream, CommonTokenStream } from "antlr4";
+import { CharStream, CommonTokenStream, ParseTreeVisitor } from "antlr4";
 import SolidityLexer from "../antlr/generated/SolidityLexer";
 import SolidityParser from "../antlr/generated/SolidityParser";
-import ErrorListener from "./ErrorListener";
-import { AstBuilder } from "./AstBuilder";
+import ErrorListener, { ErrorLocation } from "./ErrorListener";
 
-export function tokenize(input: string): any {
-  const inputStream = new CharStream(input);
-  const lexer = new SolidityLexer(inputStream);
-
-  return lexer.getAllTokens();
-}
-
-export function parse(input: string) {
+export function parse(input: string): Results {
   const inputStream = new CharStream(input);
   const lexer = new SolidityLexer(inputStream);
   const tokenStream = new CommonTokenStream(lexer);
@@ -24,11 +16,18 @@ export function parse(input: string) {
   parser.addErrorListener(listener);
   parser.buildParseTrees = true;
 
-  const sourceUnit = AstBuilder.fromSourceUnit(parser.sourceUnit());
+  new ParseTreeVisitor().visit(parser.sourceUnit());
 
   if (listener.hasErrors()) {
-    return { success: false, errors: listener.getErrors() };
+    const errors = listener.getErrors();
+    errors.map((item) => {
+      console.log(item);
+      console.log(input.split("\n")[item.line - 1].slice(item.column));
+    });
+    return { success: false, errors };
   } else {
-    return { success: true, sourceUnit };
+    return { success: true };
   }
 }
+
+type Results = { success: true } | { success: false; errors: ErrorLocation[] };
