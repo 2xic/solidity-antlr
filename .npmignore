@@ -5,3 +5,5 @@ code-stats
 .github
 .vscode
 *.tgz
+tsconfig.json
+*.unit.test*

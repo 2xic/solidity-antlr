@@ -1,15 +1,17 @@
 {
   "name": "solidity-antlr",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "## Standing on the sholders of giants Special thanks to - [https://github.com/ethereum/solidity/](https://github.com/ethereum/solidity/) for publishing the official grammar - [https://github.com/solidity-parser/parser](https://github.com/solidity-parser/parser) for showing what is possible",
   "main": "dist/solidity-antlr/Parser.js",
   "types": "dist/solidity-antlr/Parser.d.ts",
   "scripts": {
     "test": "tsc --noEmit && node --import tsx --test src/**/*unit.test.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "dry-publish":"npm publish --dry-run"
   },
-  "author": "",
-  "license": "ISC",
+  "homepage": "https://github.com/2xic/solidity-antlr",
+  "author": "github.com/2xic",
+  "license": "???",
   "devDependencies": {
     "typescript": "^5.3.3",
     "@types/node": "^20.11.9",
